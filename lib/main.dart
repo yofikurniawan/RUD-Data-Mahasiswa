@@ -22,6 +22,18 @@ List<Mhs> parseMhss(String responseBody) {
   return parsed.map<Mhs>((json) => Mhs.fromJson(json)).toList();
 }
 
+// API Delete Data 
+  Future<bool> deleteMahasiswa(String nim) async {
+    var client = http.Client();
+    String url ="https://myflutteryofi.000webhostapp.com/deleteDatajson.php";
+    var response = await client.post(url, body: {'nim': nim});
+    if (response.statusCode == 200) {
+      var result = jsonDecode(response.body);
+      return (result['status'] == 'success');
+    }
+    return false;
+  }
+
 
 class Mhs {
   final String nim;
@@ -147,12 +159,16 @@ return Container(
               children: <Widget>[
                 OutlineButton(
                   child: const Text('Edit', style: TextStyle(color: Colors.white)),
-                  onPressed: () {},
+                  onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(builder:(context)=>EditData(mhs:data[index])));
+                   },
                 ),
                 OutlineButton(
                   child: const Text('Delete', style: TextStyle(color: Colors.white)),
                   splashColor: Colors.blueAccent,
-                  onPressed: (){},
+                  onPressed: (){
+                    deleteMahasiswa(data[index].nim);
+                  },
                   ),
                 ],
               ),
