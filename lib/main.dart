@@ -168,6 +168,8 @@ return Container(
                   splashColor: Colors.blueAccent,
                   onPressed: (){
                     deleteMahasiswa(data[index].nim);
+                    Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => MyApp()), (route) => false);
                   },
                   ),
                 ],
